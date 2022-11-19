@@ -1,3 +1,4 @@
+#!/bin/python
 import customtkinter as CTk
 from tkinter import filedialog, PhotoImage
 from image import Img
@@ -81,6 +82,12 @@ class App(CTk.CTk):
         ######## image diplay #######
         self.display = CTk.CTkFrame(self, width=self.max_image, height=self.max_image)
         self.display.pack()
+        
+        self.image = CTk.CTkLabel(self.display,
+                                  text="",
+                                  width=self.max_image,
+                                  height=self.max_image)
+        self.image.pack()
 
     
     def button_new(self):
@@ -92,6 +99,7 @@ class App(CTk.CTk):
                                                     ("ALL files", ("*.jpg","*.png"))
                                                 ])
         if self.file_image != ():
+            self.image.destroy()
             self.img = Img(self.file_image)
             self.img_Tk = self.img.image_tkinter(self.max_image)
             self.image = CTk.CTkLabel(master=self.display,
