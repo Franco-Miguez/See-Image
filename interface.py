@@ -56,7 +56,7 @@ class App(CTk.CTk):
                                      command=lambda:self.button_rotate(-90))
         self.btn_rotate_right.pack(side="left", padx=5)
         
-        self.btn_black_white_image = PhotoImage(file="icon/star.png")
+        self.btn_black_white_image = PhotoImage(file="icon/black-and-white.png")
         self.btn_black_white = CTk.CTkButton(self.frame_buttons,
                                      image=self.btn_black_white_image,
                                      text="",
@@ -94,7 +94,7 @@ class App(CTk.CTk):
         """look a file jpg or png. create and insert in
         the window the image
         """
-        self.file_image = filedialog.askopenfilename(parent=self,
+        self.file_image = filedialog.askopenfilename(title="Add Image", parent=self,
                                                 filetypes=[
                                                     ("ALL files", ("*.jpg","*.png"))
                                                 ])
@@ -105,6 +105,7 @@ class App(CTk.CTk):
             self.image = CTk.CTkLabel(master=self.display,
                                       image=self.img_Tk,
                                       width=self.max_image,
+                                      text="",
                                       height=self.max_image)
             self.image.image = self.img
             self.image.pack()
@@ -122,7 +123,11 @@ class App(CTk.CTk):
     def button_save(self):
         """save image
         """
-        self.img.save()
+        path_save = filedialog.asksaveasfilename(title="Save Image",parent=self,
+                                                filetypes=[
+                                             ("JPEG", "*.jpg"),
+                                            ])
+        self.img.save(path_save+".jpg")
 
     def button_rotate(self, degrees):
         """rotate the image and update image display

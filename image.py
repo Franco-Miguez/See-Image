@@ -19,14 +19,14 @@ class Img():
         self.new_image.thumbnail((max,max))
         return ImageTk.PhotoImage(self.new_image)
     
-    def save(self,name="new"):
+    def save(self,path):
         """save image in folder with parameter name
         it's save with .jpg
 
         Args:
             name (str, optional): name the image file. Defaults to "new".
         """
-        self.img.save(f"{name}.jpg")
+        self.img.save(path)
     
     def rotate(self, degrees):
         """rotate image and expand
