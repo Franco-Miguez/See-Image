@@ -1,4 +1,5 @@
 from PIL import Image, ImageTk
+from waifu2x_ncnn_py import Waifu2x
 
 class Img():
     """manager the image
@@ -21,7 +22,7 @@ class Img():
     
     def save(self,path):
         """save image in folder with parameter name
-        it's save with .jpg
+        it's save with .png
 
         Args:
             name (str, optional): name the image file. Defaults to "new".
@@ -40,3 +41,28 @@ class Img():
         """transfor color image in black and white
         """
         self.img = self.img.convert("L")
+    
+    def scale_image(self, model, noise):
+        """scale image
+
+        Args:
+            model (string): type model {Anime, Photo}
+            noise (string): type {"Nothing", "Low","Medium","High", "Highest"}
+        """
+
+        model = "models-upconv_7_anime_style_art_rgb" if model == "Anime" else "models-upconv_7_photo"
+
+        if noise == "Nothing":
+            noise = -1
+        elif noise == "Low":
+            noise = 0
+        elif noise == "Medium":
+            noise = 1
+        elif noise == "High":
+            noise = 2
+        else:
+            noise = 3
+
+        #print(noise, size, model)
+        waifu2x = Waifu2x(model=model, scale=2, noise=noise)
+        self.img = waifu2x.process_pil(self.img)

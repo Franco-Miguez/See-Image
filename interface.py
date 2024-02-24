@@ -66,6 +66,16 @@ class App(CTk.CTk):
                                      command=self.button_black_white)
         self.btn_black_white.pack(side="left", padx=5)
         
+        self.btn_scale_ia_image = PhotoImage(file="icon/scale-ia.png")
+        self.btn_scale_ia = CTk.CTkButton(self.frame_buttons,
+                                     image=self.btn_scale_ia_image,
+                                     text="",
+                                     width=self.size_button,
+                                     height=self.size_button,
+                                     state="disabled",
+                                     command=self.button_scale_ia)
+        self.btn_scale_ia.pack(side="left", padx=5)
+        
         self.btn_save_image = PhotoImage(file="icon/save.png")
         self.btn_save = CTk.CTkButton(self.frame_buttons,
                                      image=self.btn_save_image,
@@ -96,7 +106,7 @@ class App(CTk.CTk):
         """
         self.file_image = filedialog.askopenfilename(title="Add Image", parent=self,
                                                 filetypes=[
-                                                    ("ALL files", ("*.jpg","*.png"))
+                                                    ("ALL files", ("*.jpg","*.png","*.webp"))
                                                 ])
         if self.file_image != ():
             self.image.destroy()
@@ -119,15 +129,17 @@ class App(CTk.CTk):
         self.btn_rotate_left.configure(state="normal")
         self.btn_rotate_right.configure(state="normal")
         self.btn_black_white.configure(state="normal")
+        self.btn_scale_ia.configure(state="normal")
     
     def button_save(self):
         """save image
         """
         path_save = filedialog.asksaveasfilename(title="Save Image",parent=self,
                                                 filetypes=[
-                                             ("JPEG", "*.jpg"),
+                                             ("PNG", "*.png"),
                                             ])
-        self.img.save(path_save+".jpg")
+        path_save = path_save + ".png" if path_save[-4:] != ".png" else path_save
+        self.img.save(path_save)
 
     def button_rotate(self, degrees):
         """rotate the image and update image display
@@ -141,6 +153,36 @@ class App(CTk.CTk):
         self.img.black_white()
         self.update_image()
     
+    def button_scale_ia(self):
+        """Create windows for scale."""
+
+        window_scale = CTk.CTkToplevel(self)
+        window_scale.title("Scale IA")
+
+        window_scale.geometry("400x500")
+
+        label_model = CTk.CTkLabel(window_scale, text="Model:")
+        label_model.pack(pady=20)
+
+        box_model = CTk.CTkComboBox(window_scale, values=["Anime","Photo"])
+        box_model.pack()
+
+        label_noise = CTk.CTkLabel(window_scale, text="Noise:")
+        label_noise.pack(pady=20)
+
+        box_noise = CTk.CTkComboBox(window_scale, values=["Nothing","Low","Medium","High","Highest"])
+        box_noise.pack()
+
+
+        btn_window_close = CTk.CTkButton(window_scale, text="Scale", command=lambda: self.window_scale_close(window_scale,box_model.get(),box_noise.get()))
+        btn_window_close.pack(pady=20)
+
+
+    def window_scale_close(self, window, model, noise):
+        """close window and scale image"""
+        self.img.scale_image(model,noise)
+        window.destroy()
+ 
     def update_image(self):
         """resize image and update the label in tkinter
         """
