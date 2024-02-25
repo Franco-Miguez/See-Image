@@ -75,6 +75,16 @@ class App(CTk.CTk):
                                      state="disabled",
                                      command=self.button_scale_ia)
         self.btn_scale_ia.pack(side="left", padx=5)
+
+        self.btn_remove_bg_image = PhotoImage(file="icon/remove_bg.png")
+        self.btn_remove_bg = CTk.CTkButton(self.frame_buttons,
+                                     image=self.btn_remove_bg_image,
+                                     text="",
+                                     width=self.size_button,
+                                     height=self.size_button,
+                                     state="disabled",
+                                     command=self.button_remove_bg)
+        self.btn_remove_bg.pack(side="left", padx=5)
         
         self.btn_save_image = PhotoImage(file="icon/save.png")
         self.btn_save = CTk.CTkButton(self.frame_buttons,
@@ -131,6 +141,7 @@ class App(CTk.CTk):
         self.btn_rotate_right.configure(state="normal")
         self.btn_black_white.configure(state="normal")
         self.btn_scale_ia.configure(state="normal")
+        self.btn_remove_bg.configure(state="normal")
 
     def deactivate_button(self):
         """activate the edition button and save
@@ -141,6 +152,7 @@ class App(CTk.CTk):
         self.btn_rotate_right.configure(state="disabled")
         self.btn_black_white.configure(state="disabled")
         self.btn_scale_ia.configure(state="disabled")
+        self.btn_remove_bg.configure(state="disabled")
     
     def button_save(self):
         """save image
@@ -162,6 +174,10 @@ class App(CTk.CTk):
         """tranform color image in black and white and image update
         """
         self.img.black_white()
+        self.update_image()
+
+    def button_remove_bg(self):
+        self.img.remove_bg()
         self.update_image()
     
     def button_scale_ia(self):

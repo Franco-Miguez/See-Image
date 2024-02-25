@@ -1,5 +1,6 @@
 from PIL import Image, ImageTk
 from waifu2x_ncnn_py import Waifu2x
+from rembg import remove
 
 class Img():
     """manager the image
@@ -75,3 +76,7 @@ class Img():
         waifu2x = Waifu2x(model=model, scale=2, noise=noise)
         for x in range(scale):
             self.img = waifu2x.process_pil(self.img)
+    
+    def remove_bg(self):
+        self.img = remove(self.img)
+        
