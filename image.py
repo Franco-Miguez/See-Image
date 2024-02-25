@@ -16,7 +16,7 @@ class Img():
         Returns:
             ImageTk.PhotoImage: image for insert in tkinter
         """
-        self.new_image = self.img
+        self.new_image = self.img.copy()
         self.new_image.thumbnail((max,max))
         return ImageTk.PhotoImage(self.new_image)
     
@@ -42,15 +42,23 @@ class Img():
         """
         self.img = self.img.convert("L")
     
-    def scale_image(self, model, noise):
+    def scale_image(self, model, scale, noise):
         """scale image
 
         Args:
             model (string): type model {Anime, Photo}
+            model (string): type {"x2","x4","x8"}
             noise (string): type {"Nothing", "Low","Medium","High", "Highest"}
         """
 
         model = "models-upconv_7_anime_style_art_rgb" if model == "Anime" else "models-upconv_7_photo"
+
+        if scale == "x2":
+            scale = 1
+        elif scale == "x4":
+            scale = 2
+        elif scale == "x8":
+            scale = 3
 
         if noise == "Nothing":
             noise = -1
@@ -65,4 +73,5 @@ class Img():
 
         #print(noise, size, model)
         waifu2x = Waifu2x(model=model, scale=2, noise=noise)
-        self.img = waifu2x.process_pil(self.img)
+        for x in range(scale):
+            self.img = waifu2x.process_pil(self.img)

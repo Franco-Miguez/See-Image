@@ -125,11 +125,22 @@ class App(CTk.CTk):
     def activate_button(self):
         """activate the edition button and save
         """
+        self.btn_new.configure(state="normal")
         self.btn_save.configure(state="normal")
         self.btn_rotate_left.configure(state="normal")
         self.btn_rotate_right.configure(state="normal")
         self.btn_black_white.configure(state="normal")
         self.btn_scale_ia.configure(state="normal")
+
+    def deactivate_button(self):
+        """activate the edition button and save
+        """
+        self.btn_new.configure(state="disabled")
+        self.btn_save.configure(state="disabled")
+        self.btn_rotate_left.configure(state="disabled")
+        self.btn_rotate_right.configure(state="disabled")
+        self.btn_black_white.configure(state="disabled")
+        self.btn_scale_ia.configure(state="disabled")
     
     def button_save(self):
         """save image
@@ -155,17 +166,24 @@ class App(CTk.CTk):
     
     def button_scale_ia(self):
         """Create windows for scale."""
-
+        self.deactivate_button()
         window_scale = CTk.CTkToplevel(self)
         window_scale.title("Scale IA")
-
         window_scale.geometry("400x500")
+        window_scale.attributes("-topmost", True)
+        window_scale.protocol("WM_DELETE_WINDOW",lambda: self.delete_window(window_scale))
 
         label_model = CTk.CTkLabel(window_scale, text="Model:")
         label_model.pack(pady=20)
 
         box_model = CTk.CTkComboBox(window_scale, values=["Anime","Photo"])
         box_model.pack()
+        
+        label_scale = CTk.CTkLabel(window_scale, text="scale:")
+        label_scale.pack(pady=20)
+
+        box_scale= CTk.CTkComboBox(window_scale, values=["x2", "x4", "x8"])
+        box_scale.pack()
 
         label_noise = CTk.CTkLabel(window_scale, text="Noise:")
         label_noise.pack(pady=20)
@@ -174,13 +192,19 @@ class App(CTk.CTk):
         box_noise.pack()
 
 
-        btn_window_close = CTk.CTkButton(window_scale, text="Scale", command=lambda: self.window_scale_close(window_scale,box_model.get(),box_noise.get()))
+        btn_window_close = CTk.CTkButton(window_scale, text="Scale", command=lambda: self.window_scale_close(window_scale,model=box_model.get(), scale=box_scale.get(), noise=box_noise.get()))
         btn_window_close.pack(pady=20)
 
 
-    def window_scale_close(self, window, model, noise):
+    def window_scale_close(self, window, model, scale, noise):
         """close window and scale image"""
-        self.img.scale_image(model,noise)
+        self.img.scale_image(model, scale,noise)
+        self.update_image()
+        self.activate_button()
+        window.destroy()
+
+    def delete_window(self, window):
+        self.activate_button()
         window.destroy()
  
     def update_image(self):
