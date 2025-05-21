@@ -2,54 +2,52 @@ from PIL import Image, ImageTk
 from waifu2x_ncnn_py import Waifu2x
 from rembg import remove
 
-class Img():
-    """manager the image
-    """
+class Img:
+    """Class for managing images."""
+
     def __init__(self, path) -> None:
         self.img = Image.open(path)
 
-    def image_tkinter(self,max)->ImageTk.PhotoImage:
-        """tranform image for insert in tkinter
+    def image_tkinter(self, max_size) -> ImageTk.PhotoImage:
+        """Convert the image for insertion into Tkinter.
 
         Args:
-            max (int):  width and height max the image for insert in tkinter
+            max_size (int): maximum width and height for the image.
 
         Returns:
-            ImageTk.PhotoImage: image for insert in tkinter
+            ImageTk.PhotoImage: image object compatible with Tkinter.
         """
         self.new_image = self.img.copy()
-        self.new_image.thumbnail((max,max))
+        self.new_image.thumbnail((max_size, max_size))
         return ImageTk.PhotoImage(self.new_image)
-    
-    def save(self,path):
-        """save image in folder with parameter name
-        it's save with .png
+
+    def save(self, path):
+        """Save the image to the specified path.
 
         Args:
-            name (str, optional): name the image file. Defaults to "new".
+            path (str): destination path for saving the image.
         """
         self.img.save(path)
-    
+
     def rotate(self, degrees):
-        """rotate image and expand
+        """Rotate the image and expand the canvas to fit.
 
         Args:
-            degrees (int/float): degrees to rotate
+            degrees (int | float): rotation angle in degrees.
         """
         self.img = self.img.rotate(degrees, expand=True)
-    
+
     def black_white(self):
-        """transfor color image in black and white
-        """
+        """Convert the image to grayscale."""
         self.img = self.img.convert("L")
-    
+
     def scale_image(self, model, scale, noise):
-        """scale image
+        """Scale the image using waifu2x.
 
         Args:
-            model (string): type model {Anime, Photo}
-            model (string): type {"x2","x4","x8"}
-            noise (string): type {"Nothing", "Low","Medium","High", "Highest"}
+            model (str): 'Anime' or 'Photo'.
+            scale (str): 'x2', 'x4' or 'x8'.
+            noise (str): 'Nothing', 'Low', 'Medium', 'High' or 'Highest'.
         """
 
         model = "models-upconv_7_anime_style_art_rgb" if model == "Anime" else "models-upconv_7_photo"
@@ -72,11 +70,10 @@ class Img():
         else:
             noise = 3
 
-        #print(noise, size, model)
         waifu2x = Waifu2x(model=model, scale=2, noise=noise)
         for x in range(scale):
             self.img = waifu2x.process_pil(self.img)
-    
+
     def remove_bg(self):
+        """Remove the background from the image."""
         self.img = remove(self.img)
-        
