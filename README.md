@@ -20,6 +20,9 @@ See-Image es una aplicación de escritorio desarrollada en Python que permite vi
 ## Requisitos
 - Python 3.8 o superior
 - Paquetes listados en `requeriment.txt`
+- Vulkan SDK:
+  - Windows: instalar desde https://vulkan.lunarg.com/sdk/home
+  - Linux: `sudo apt install -y libomp5 libvulkan-dev`
 
 ## Instalación
 ```bash

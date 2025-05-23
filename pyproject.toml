@@ -1,0 +1,13 @@
+[project]
+name = "see-image"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "customtkinter>=5.2.2",
+    "pillow>=11.2.1",
+    "pyinstaller>=6.13.0",
+    "rembg[cpu]>=2.0.66",
+    "waifu2x-ncnn-py>=2.0.0",
+]
