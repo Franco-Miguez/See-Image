@@ -5,3 +5,4 @@ opencv-python==4.9.0.80
 packaging==23.2
 pillow==10.2.0
 waifu2x-ncnn-py==2.0.0
+rembg[cpu]==2.0.66
