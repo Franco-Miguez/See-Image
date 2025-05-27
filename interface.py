@@ -1,7 +1,9 @@
 #!/bin/python
+from pickle import TRUE
 import customtkinter as CTk
 from tkinter import filedialog, PhotoImage
 from image import Img
+import os
 
 CTk.set_appearance_mode("dark")
 CTk.set_default_color_theme("blue")
@@ -15,6 +17,11 @@ class App(CTk.CTk):
         self.resizable(0,0)
         self.size_button = 50
         self.max_image = 600
+        self.ruta = os.path.dirname(os.path.abspath(__file__))
+        self.ruta_icon = os.path.join(self.ruta, "icon")
+        icon = PhotoImage(file=os.path.join(self.ruta_icon, "remove_bg.png"))
+        self.iconphoto(True,icon)
+
         
         # Button controls frame
         self.frame_buttons = CTk.CTkFrame(self,
@@ -23,7 +30,7 @@ class App(CTk.CTk):
         self.frame_buttons.pack(pady=10, ipadx=10, ipady=10)
         
         # App buttons
-        self.btn_new_image = PhotoImage(file="icon/file-plus.png")
+        self.btn_new_image = PhotoImage(file= os.path.join(self.ruta_icon, "file-plus.png"))
         self.btn_new = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_new_image,
                                     text="",
@@ -32,7 +39,7 @@ class App(CTk.CTk):
                                     command=self.button_new)
         self.btn_new.pack(side="left", padx=5)
         
-        self.btn_rotate_left_image = PhotoImage(file="icon/rotate-left.png")
+        self.btn_rotate_left_image = PhotoImage(file=os.path.join(self.ruta_icon, "rotate-left.png"))
         self.btn_rotate_left = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_rotate_left_image,
                                     text="",
@@ -42,7 +49,7 @@ class App(CTk.CTk):
                                     command=lambda:self.button_rotate(90))
         self.btn_rotate_left.pack(side="left", padx=5)
         
-        self.btn_rotate_right_image = PhotoImage(file="icon/rotate-right.png")
+        self.btn_rotate_right_image = PhotoImage(file=os.path.join(self.ruta_icon, "rotate-right.png"))
         self.btn_rotate_right = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_rotate_right_image,
                                     text="",
@@ -52,7 +59,7 @@ class App(CTk.CTk):
                                     command=lambda:self.button_rotate(-90))
         self.btn_rotate_right.pack(side="left", padx=5)
         
-        self.btn_black_white_image = PhotoImage(file="icon/black-and-white.png")
+        self.btn_black_white_image = PhotoImage(file=os.path.join(self.ruta_icon, "black-and-white.png"))
         self.btn_black_white = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_black_white_image,
                                     text="",
@@ -62,7 +69,7 @@ class App(CTk.CTk):
                                     command=self.button_black_white)
         self.btn_black_white.pack(side="left", padx=5)
         
-        self.btn_scale_ia_image = PhotoImage(file="icon/scale-ia.png")
+        self.btn_scale_ia_image = PhotoImage(file=os.path.join(self.ruta_icon, "scale-ia.png"))
         self.btn_scale_ia = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_scale_ia_image,
                                     text="",
@@ -72,7 +79,7 @@ class App(CTk.CTk):
                                     command=self.button_scale_ia)
         self.btn_scale_ia.pack(side="left", padx=5)
 
-        self.btn_remove_bg_image = PhotoImage(file="icon/remove_bg.png")
+        self.btn_remove_bg_image = PhotoImage(file=os.path.join(self.ruta_icon, "remove_bg.png"))
         self.btn_remove_bg = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_remove_bg_image,
                                     text="",
@@ -82,7 +89,7 @@ class App(CTk.CTk):
                                     command=self.button_remove_bg)
         self.btn_remove_bg.pack(side="left", padx=5)
         
-        self.btn_save_image = PhotoImage(file="icon/save.png")
+        self.btn_save_image = PhotoImage(file=os.path.join(self.ruta_icon, "save.png"))
         self.btn_save = CTk.CTkButton(self.frame_buttons,
                                     image=self.btn_save_image,
                                     text="",
